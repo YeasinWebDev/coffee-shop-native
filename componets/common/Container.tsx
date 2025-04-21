@@ -13,7 +13,7 @@ const Container: FC<ContainerProps> = ({ children, noPadding, bottomInset = true
   const insets = useSafeAreaInsets();
 
   return (
-    <View bg="$background" flex={1} paddingTop={insets.top} paddingBottom={bottomInset ? insets.bottom : 0} paddingHorizontal={noPadding ? 0 : 10}>
+    <View bg="$background" flex={1} paddingTop={insets.top} paddingBottom={bottomInset ? insets.bottom : 0} paddingHorizontal={noPadding ? 0 : 15}>
       {children}
     </View>
   );

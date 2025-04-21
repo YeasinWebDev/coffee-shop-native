@@ -14,6 +14,7 @@ const Tabs = ({activeTab, setActiveTab}:Props) => {
         <FlatList
             data={tabs}
             horizontal
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item}
             contentContainerStyle={{
                 padding: 10,
