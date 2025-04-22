@@ -13,8 +13,8 @@ const OrderHistory = () => {
 
       <ScrollView>
         <YStack my='$5' gap='$10'>
-          {data.map((item) => (
-            <YStack>
+          {data.map((item,index) => (
+            <YStack key={index}>
               <XStack ai="center" jc="space-between">
                 <YStack>
                   <H4 fontWeight="$6">Order Date</H4>

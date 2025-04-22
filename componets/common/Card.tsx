@@ -15,6 +15,7 @@ import {
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { LinearGradient } from "tamagui/linear-gradient";
+import { router } from "expo-router";
 const Card = ({ data }: any) => {
   return (
     <LinearGradient
@@ -23,7 +24,7 @@ const Card = ({ data }: any) => {
       end={[1, 1]}
       br="$4"
     >
-      <YStack p="$4" br="$4">
+      <YStack p="$4" br="$4" onPress={() => router.push(`/details/${data.id}`)}>
         <View pos="relative">
           <Image source={{ uri: data.image }} w={126} h={126} br="$4" />
           <XStack
