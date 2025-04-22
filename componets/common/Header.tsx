@@ -3,6 +3,7 @@ import React from "react";
 import { H3, H4, Image, XStack } from "tamagui";
 import Entypo from "@expo/vector-icons/Entypo";
 import { LinearGradient } from "tamagui/linear-gradient";
+import { router } from "expo-router";
 
 const Header = ({title=''}) => {
   return (
@@ -18,6 +19,7 @@ const Header = ({title=''}) => {
         justifyContent="center"
         borderWidth={1}
         bc='#21262E'
+        onPress={() => router.push('/SignIn')}
       >
         <Entypo name="menu" size={24} color="#FFFFFF2E" />
       </LinearGradient>

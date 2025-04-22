@@ -40,10 +40,13 @@ export default function RootLayout() {
   return (
     <TamaguiProvider config={tamaguiConfig}>
       <Theme name="dark">
-        <Stack>
+        <Stack screenOptions={{headerShown:false}}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
-          <Stack.Screen name="details/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="details/[id]"/>
+          <Stack.Screen name="SignIn" />
+          <Stack.Screen name="SignUp" />
+          
         </Stack>
         <StatusBar style="light" /> {/* Always light status bar */}
       </Theme>
