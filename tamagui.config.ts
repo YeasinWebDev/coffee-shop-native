@@ -18,7 +18,7 @@ const tamaguiConfig = createTamagui({
     ...config.themes,
     dark: {
       ...config.themes.dark,
-      background: '#0c0f14',
+      background: '#000',
     },
   },
   fonts: {

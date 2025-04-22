@@ -65,9 +65,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="notification"
+        name="orderHistory"
         options={{
-          title: 'notification',
+          title: 'orderHistory',
           tabBarIcon: ({ focused, color }) => (
             <Notification fill={focused ? '#D17842' : color} />
           ),
