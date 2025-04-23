@@ -1,18 +1,52 @@
 import { View, TextInput, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@/componets/common/Container";
-import { H2, H4, H5, H6, Paragraph, XStack, YStack } from "tamagui";
+import { H2, H5, H6, XStack, YStack } from "tamagui";
 import { router } from "expo-router";
+import axios from "axios";
+import { getUser, saveUser } from "@/ulits";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loader, setLoader] = useState(false);
 
-  const handleSignUp = () => {
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Password:", password);
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  const loadUser = async () => {
+    const { token, user } = await getUser();
+    if (token && user) {
+      router.replace("/");
+    }
+  };
+
+  const handleSignUp = async () => {
+    if (!name || !email || !password)
+      return setError("All fields are required");
+    setLoader(true);
+
+    try {
+      const res = await axios.post(
+        `${process.env.EXPO_PUBLIC_BACKENDURL}/register`,
+        { name, email, password }
+      );
+      if (res) {
+        await saveUser(res.data.token, res.data.user);
+        setLoader(false);
+        router.push("/");
+      }
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+      setLoader(false);
+    }
   };
 
   return (
@@ -79,6 +113,12 @@ const SignUp = () => {
             }}
           />
 
+          {error && (
+            <H5 color="red" fontWeight="$4">
+              {error}
+            </H5>
+          )}
+
           <TouchableOpacity
             onPress={handleSignUp}
             style={{
@@ -89,7 +129,11 @@ const SignUp = () => {
               alignItems: "center",
             }}
           >
-            <H5 color="white">Create Account</H5>
+            {loader ? (
+              <H5 color="white">Loading...</H5>
+            ) : (
+              <H5 color="white">Create Account</H5>
+            )}
           </TouchableOpacity>
 
           <XStack ai="center" jc="center" mt="$4" gap="$2">
