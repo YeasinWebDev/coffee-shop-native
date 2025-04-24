@@ -1,17 +1,26 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import Container from "@/componets/common/Container";
 import { H3, H4, H5, H6, Image, ScrollView, XStack, YStack } from "tamagui";
-import { BeansData, CoffeeData } from "@/componets/Data";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import axios from "axios";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
-  let data =
-    BeansData.find((i) => i.id === id) || CoffeeData.find((i) => i.id === id);
-  console.log(data);
+  const [data, setData] = useState<any>();
+  console.log(id);
+
+  useEffect(() => {
+    productdata();
+  }, [id]);
+
+  let productdata = async () => {
+    const res = await axios.get(
+      `${process.env.EXPO_PUBLIC_BACKENDURL}/product/${id}`
+    );
+    return setData(res.data);
+  };
 
   if (!data) return;
   return (
@@ -112,7 +121,6 @@ const Details = () => {
                 br="$10"
               >
                 <AntDesign name="heart" size={18} color="#DC3535" />
-
               </XStack>
               <XStack
                 bg="#0C0F14"
@@ -138,7 +146,7 @@ const Details = () => {
                 Size
               </H4>
               <XStack gap="$5" flexWrap="wrap" mt="$2">
-                {data.sizes.map((s) => (
+                {data.sizes.map((s: any) => (
                   <H5 px="$5" py="$2.5" bg="#141921" color="#AEAEAE" br="$5">
                     {s}
                   </H5>
@@ -148,28 +156,27 @@ const Details = () => {
           </YStack>
         </YStack>
       </ScrollView>
-        <XStack my="$4" ai="center" gap="$5">
-          <YStack>
-            <H5 fontWeight="$6">Total Price</H5>
-            <XStack ai="center" gap="$2">
-              <FontAwesome name="dollar" size={20} color="#D17842" />
-              <H3 fontWeight="$6">{data.price}</H3>
-            </XStack>
-          </YStack>
-          <XStack
-            bg="#D17842"
-            py="$2"
-            px="$3"
-            br="$6"
-            ai="center"
-            flex={1}
-            h="$6"
-            ai="center"
-            jc="center"
-          >
-            <H4 fontWeight="$6">Add to Cart</H4>
+      <XStack my="$4" ai="center" gap="$5">
+        <YStack>
+          <H5 fontWeight="$6">Total Price</H5>
+          <XStack ai="center" gap="$2">
+            <FontAwesome name="dollar" size={20} color="#D17842" />
+            <H3 fontWeight="$6">{data.price}</H3>
           </XStack>
+        </YStack>
+        <XStack
+          bg="#D17842"
+          py="$2"
+          px="$3"
+          br="$6"
+          ai="center"
+          flex={1}
+          h="$6"
+          jc="center"
+        >
+          <H4 fontWeight="$6">Add to Cart</H4>
         </XStack>
+      </XStack>
     </Container>
   );
 };

@@ -24,7 +24,7 @@ const Card = ({ data }: any) => {
       end={[1, 1]}
       br="$4"
     >
-      <YStack p="$4" br="$4" onPress={() => router.push(`/details/${data.id}`)}>
+      <YStack p="$4" br="$4" onPress={() => router.push(`/details/${data._id}`)}>
         <View pos="relative">
           <Image source={{ uri: data.image }} w={126} h={126} br="$4" />
           <XStack

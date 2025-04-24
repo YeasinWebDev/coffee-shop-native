@@ -1,5 +1,5 @@
 import Container from "@/componets/common/Container";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   H1,
   H3,
@@ -14,12 +14,27 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import { FlatList, TextInput } from "react-native";
 import Tabs from "@/componets/Home/Tabs";
-import { CoffeeData } from "@/componets/Data";
-import { BeansData } from "@/componets/Data";
+// import { CoffeeData } from "@/componets/Data";
+// import { BeansData } from "@/componets/Data";
 import Card from "@/componets/common/Card";
 import Header from "@/componets/common/Header";
+import axios from "axios";
 const index = () => {
   const [activeTab, setActiveTab] = useState("All");
+  const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState<any>()
+
+  useEffect(()=>{
+    product()
+  },[searchText])
+
+  const product = async () => {
+    const res = await axios.get(
+      `${process.env.EXPO_PUBLIC_BACKENDURL}/products?search=${searchText}`
+    );
+    setData(res.data)
+  };
+
   return (
     <Container>
       <ScrollView my="$4">
@@ -43,13 +58,15 @@ const index = () => {
             placeholder="Find your coffee...."
             placeholderTextColor="#52555A"
             style={{ flex: 1, fontSize: 16, color: "#fff" }}
+            onChangeText={(text) => setSearchText(text)}
+            value={searchText}
           />
         </XStack>
 
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <YStack mt="$3">
           <FlatList
-            data={CoffeeData}
+            data={ data?.filter((i:any) => i.type === "coffee")}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => <Card data={item} />}
@@ -64,7 +81,7 @@ const index = () => {
             Coffee beans
           </H4>
           <FlatList
-            data={BeansData}
+            data={data?.filter((i:any) => i.type === "beans")}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => <Card data={item} />}
